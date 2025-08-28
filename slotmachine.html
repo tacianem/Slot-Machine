@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Animated Slot Machine</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; background: #111; color: #fff; }
+    .slot { display: inline-block; width: 80px; height: 80px; line-height: 80px; 
+            font-size: 2rem; background: #222; margin: 5px; border-radius: 10px; }
+    button { margin-top: 20px; padding: 10px 20px; font-size: 1rem; border-radius: 8px; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>🎰 Slot Machine</h1>
+  <div id="reels">
+    <div class="slot">❓</div>
+    <div class="slot">❓</div>
+    <div class="slot">❓</div>
+  </div>
+  <button onclick="spin()">Spin</button>
+  <p id="result"></p>
+
+  <script>
+    const symbols = ["🍒","🍋","🔔","⭐", "7️⃣"];
+    const reels = document.querySelectorAll(".slot"); // Gets all slots
+
+    let results = [];
+    let spinning = false;
+
+    function spin() {
+      document.getElementById("result").textContent = ""; // Resets 'result' message on screen for a new spin!
+      if (spinning) return; // Returns if a spin is already in progress
+      spinning = true;
+
+      spinReel(0); // Starts with first slot (index = 0)
+    }
+
+    function spinReel(index) { // This function is called for each slot (one at a time)
+      let counter = 0; // Number of shown symbols to give the illusion of a real spin
+
+      const interval = setInterval(() => {
+        reels[index].textContent = symbols[Math.floor(Math.random() * symbols.length)]; // Sets symbols randomly until counter is hit 
+        counter++;
+
+        if (counter > 7) { 
+          clearInterval(interval);
+
+          // Displays final symbol 
+          let finalSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+          reels[index].textContent = finalSymbol; 
+          results[index] = finalSymbol;
+
+          // If not last slot, spins the next one
+          if (index < reels.length - 1) {
+            spinReel(index + 1); // Calls function for next slot
+          } else {
+            displayResults();
+            spinning = false; // Machine is ready for next spin
+          }
+        }
+
+      }, 140);
+    }
+
+    function displayResults(){
+      let win = results.every(symbol => symbol === results[0]);
+      document.getElementById("result").textContent = win ? "Congratulations! You Won!! 🎉🎉🎉" : "Try Again!!"; // Displays final result
+    }
+  </script>
+</body>
+</html>
