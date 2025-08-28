@@ -21,7 +21,7 @@
   <p id="result"></p>
 
   <script>
-    const symbols = ["🍒","🍋","🔔","⭐", "7️⃣"];
+    const symbols = ["⭐","🍒","🍋","🔔", "7️⃣"];
     const reels = document.querySelectorAll(".slot"); // Gets all slots
 
     let results = [];
@@ -54,7 +54,7 @@
           if (index < reels.length - 1) {
             spinReel(index + 1); // Calls function for next slot
           } else {
-            displayResults();
+            displayResult();
             spinning = false; // Machine is ready for next spin
           }
         }
@@ -62,9 +62,9 @@
       }, 140);
     }
 
-    function displayResults(){
+    function displayResult(){
       let win = results.every(symbol => symbol === results[0]);
-      document.getElementById("result").textContent = win ? "Congratulations! You Won!! 🎉🎉🎉" : "Try Again!!"; // Displays final result
+      document.getElementById("result").textContent = win ? "YOU WON!! 🎉🎉🎉" : "Try Again!!"; // Displays final result
     }
   </script>
 </body>
